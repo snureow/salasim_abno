@@ -63,6 +63,11 @@ public class L0ProvisioningCOPWF extends WorkflowCOP
 		
 		String remoteAddr = request.get("remoteAddr");
 		String bw=request.get("Bandwidth");
+		Long durationSlots = null;
+		if (request.get("Duration") != null){
+			durationSlots = Long.parseLong(request.get("Duration"));
+			log.info("Duration slots is: " + durationSlots);
+		}
 		
 		
 		boolean delete=false;
@@ -151,7 +156,7 @@ public class L0ProvisioningCOPWF extends WorkflowCOP
 				log.info("Bandwith is: "+bw.toString());
 				bandwidth=Float.parseFloat(bw);
 				//pcepResponsel0ML = path_Computationlist.getFirst().calculatePath(source,ip_dest, bandwidth);
-				pcepResponsel0ML = path_Computationlist.getFirst().calculatePath(source, destination, source_interface, destination_interface, bandwidth, oFcode,nodeExclude,portExclude);
+				pcepResponsel0ML = path_Computationlist.getFirst().calculatePath(source, destination, source_interface, destination_interface, bandwidth, oFcode,nodeExclude,portExclude, durationSlots);
 				log.info("Finish calculatePath");
 			}else{
 				//Does not have Bandwidth parameter

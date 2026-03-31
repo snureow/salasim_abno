@@ -102,6 +102,7 @@ public class ConfigApiServiceImpl extends ConfigApiService {
   		request.put("Bandwidth", call.getTrafficParams().getReservedBandwidth().toString());
   		request.put("Source_Node", call.getAEnd().getRouterId());
   		request.put("Destination_Node", call.getZEnd().getRouterId());
+  		request.put("Duration", call.getDuration().toString());
   		
   		if (call.getAEnd().getInterfaceId()!= null){
   			request.put("source_interface", call.getAEnd().getInterfaceId());
@@ -861,6 +862,6 @@ public class ConfigApiServiceImpl extends ConfigApiService {
       throws NotFoundException {
       // do some magicoo1!
       return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magicoo1!")).build();
-  }
+	  }
   
 }

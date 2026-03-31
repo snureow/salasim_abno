@@ -24,6 +24,7 @@ public class Call  {
   private Endpoint zEnd = null;
   private List<Connection> connections = new ArrayList<Connection>();
   private TrafficParams trafficParams = null;
+  private Integer duration = null;
   private Endpoint aEnd = null;
   private TransportLayerType transportLayer = null;
   private MatchRules match = null;
@@ -92,6 +93,18 @@ public class Call  {
   /**
    **/
   @ApiModelProperty(value = "")
+  @JsonProperty("duration")
+  public Integer getDuration() {
+    return duration;
+  }
+  public void setDuration(Integer duration) {
+    this.duration = duration;
+  }
+
+  
+  /**
+   **/
+  @ApiModelProperty(value = "")
   @JsonProperty("aEnd")
   public Endpoint getAEnd() {
     return aEnd;
@@ -136,6 +149,7 @@ public class Call  {
     sb.append("  zEnd: ").append(zEnd).append("\n");
     sb.append("  connections: ").append(connections).append("\n");
     sb.append("  trafficParams: ").append(trafficParams).append("\n");
+    sb.append("  duration: ").append(duration).append("\n");
     sb.append("  aEnd: ").append(aEnd).append("\n");
     sb.append("  transportLayer: ").append(transportLayer).append("\n");
     sb.append("  match: ").append(match).append("\n");

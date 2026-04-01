@@ -29,6 +29,7 @@ import es.tid.pce.pcep.objects.subobjects.XROSubobject;
 import es.tid.pce.pcep.objects.tlvs.EndPointDataPathTLV;
 import es.tid.pce.pcep.objects.tlvs.EndPointIPv4TLV;
 import es.tid.pce.pcep.objects.tlvs.EndPointUnnumberedDataPathTLV;
+import es.tid.pce.pcep.objects.tlvs.LSPDurationTLV;
 import es.tid.pce.pcep.objects.tlvs.UnnumberedEndpointTLV;
 import es.tid.pce.pcepsession.PCEPSessionsInformation;
 import es.tid.util.UtilsFunctions;
@@ -123,13 +124,18 @@ public class Path_Computation extends Thread
 		}
 	}
 
-	
+
 	
 
 	public PCEPResponse calculatePath(String SourceString, String DestString, int srcIntf, int dstIntf, float bndwdth, int OFCode, String ExcludeString, long excludePort)
 	{
+		return calculatePath(SourceString, DestString, srcIntf, dstIntf, bndwdth, OFCode, ExcludeString, excludePort, null);
+	}
+
+	public PCEPResponse calculatePath(String SourceString, String DestString, int srcIntf, int dstIntf, float bndwdth, int OFCode, String ExcludeString, long excludePort, Long durationSlots)
+	{
 		this.log.info("**  PCE  **");
-		this.log.info("Calculating cost between " + SourceString + " and " + DestString + " src port "+srcIntf+ " dst port "+dstIntf+ " bandwidth "+bndwdth + " OFCode "+OFCode);
+		this.log.info("Calculating cost between " + SourceString + " and " + DestString + " src port "+srcIntf+ " dst port "+dstIntf+ " bandwidth "+bndwdth + " OFCode "+OFCode + " durationSlots " + durationSlots);
 		try {
 			// Creating PCEP Request
 			PCEPRequest pReq = new PCEPRequest();
@@ -143,6 +149,11 @@ public class Path_Computation extends Thread
 			reqParams.setPrio(1);
 			//reqParams.setRequestID(1L);
 			reqParams.setRequestID(PCCPCEPSession.getNewReqIDCounter());
+			if (durationSlots != null){
+				LSPDurationTLV durationTLV = new LSPDurationTLV();
+				durationTLV.setDuration(durationSlots.longValue());
+				reqParams.setLspDurationTLV(durationTLV);
+			}
 
 			req.setRequestParameters(reqParams);
 			

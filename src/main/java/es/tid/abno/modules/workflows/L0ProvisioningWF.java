@@ -62,11 +62,16 @@ public class L0ProvisioningWF extends Workflow
 		this.operation = request.getParameter("Operation");
 		this.excludeNode = request.getParameter("Exclude_Node");
 		this.OFCode=request.getParameter("OF");
+		Integer slaLevel = null;
 		
 		if (request.getParameter("m")!=null){
 			this.m=Integer.parseInt(request.getParameter("m"));
 		}else this.m=-1;
 		log.info("jm m: "+m);
+		if (request.getParameter("SLA")!=null){
+			slaLevel = Integer.parseInt(request.getParameter("SLA"));
+			log.info("SLA level is: " + slaLevel);
+		}
 		
 		this.ero = request.getParameter("ERO");
 		
@@ -139,14 +144,14 @@ public class L0ProvisioningWF extends Workflow
 			if (m!=-1){//MediaChannel
 				//L0ProvisioningWF could be obtain throw request.getParameter("Operation_Type");
 				oFcode= params.getPolicy().get("L0ProvisioningWF").getMediaChannel().getOfCode();
-				pcepResponsel0ML = path_Computationlist.getFirst().calculateMediaChannelPath(source, destination, source_interface, destination_interface, m, oFcode);
+				pcepResponsel0ML = path_Computationlist.getFirst().calculateMediaChannelPath(source, destination, source_interface, destination_interface, m, oFcode, slaLevel);
 				log.info("Finish calculatePath MediaChannel");
 				
 			}else if (bw!=null){
 				log.info("Bandwith is: "+bw.toString());
 				bandwidth=Float.parseFloat(bw);
 				//pcepResponsel0ML = path_Computationlist.getFirst().calculatePath(source,ip_dest, bandwidth);
-				pcepResponsel0ML = path_Computationlist.getFirst().calculatePath(source, destination, source_interface, destination_interface, bandwidth, oFcode,nodeExclude,portExclude);
+				pcepResponsel0ML = path_Computationlist.getFirst().calculatePath(source, destination, source_interface, destination_interface, bandwidth, oFcode,nodeExclude,portExclude, null, slaLevel);
 				log.info("Finish calculatePath");
 			}else{
 				//Does not have Bandwidth parameter
@@ -238,7 +243,7 @@ public class L0ProvisioningWF extends Workflow
 					
 		
 					//respIni= callPCE(responseTOinitiate(pcepResponsel0ML,m));
-					PCEPInitiate pcepInit = responseTOinitiate(pcepResponsel0ML,m);
+					PCEPInitiate pcepInit = responseTOinitiate(pcepResponsel0ML,m,slaLevel);
 					GeneralizedEndPoints endPointsInitiate = new GeneralizedEndPoints();
 					endPointsInitiate = Path_Computation.createGeneralizedEndpoints(source, source_interface, destination, destination_interface);
 					pcepInit.getPcepIntiatedLSPList().get(0).setEndPoint(endPointsInitiate);
@@ -248,7 +253,7 @@ public class L0ProvisioningWF extends Workflow
 									
 				}else {
 					log.info("Sending PCEP Initiate to Provisioning Manager");
-					callProvisioningManager(responseTOinitiate(pcepResponsel0ML));
+					callProvisioningManager(responseTOinitiate(pcepResponsel0ML, slaLevel));
 					log.info("Finish callProvisioningManager");
 				}
 				

@@ -1,0 +1,702 @@
+[
+  {
+    "callId": "test-connection-001",
+    "aEnd": {
+      "routerId": "172.18.7.11"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.8"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 2
+    },
+    "duration": 6
+  },
+  {
+    "callId": "test-connection-002",
+    "aEnd": {
+      "routerId": "172.18.7.8"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.15"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 1
+    },
+    "duration": 18
+  },
+  {
+    "callId": "test-connection-003",
+    "aEnd": {
+      "routerId": "172.18.7.4"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.11"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 2
+    },
+    "duration": 16
+  },
+  {
+    "callId": "test-connection-004",
+    "aEnd": {
+      "routerId": "172.18.7.13"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.5"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 4
+    },
+    "duration": 17
+  },
+  {
+    "callId": "test-connection-005",
+    "aEnd": {
+      "routerId": "172.18.7.10"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.5"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 1
+    },
+    "duration": 4
+  },
+  {
+    "callId": "test-connection-006",
+    "aEnd": {
+      "routerId": "172.18.7.5"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.6"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 1
+    },
+    "duration": 7
+  },
+  {
+    "callId": "test-connection-007",
+    "aEnd": {
+      "routerId": "172.18.7.15"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.7"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 2
+    },
+    "duration": 10
+  },
+  {
+    "callId": "test-connection-008",
+    "aEnd": {
+      "routerId": "172.18.7.15"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.13"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 4
+    },
+    "duration": 2
+  },
+  {
+    "callId": "test-connection-009",
+    "aEnd": {
+      "routerId": "172.18.7.8"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.9"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 3
+    },
+    "duration": 16
+  },
+  {
+    "callId": "test-connection-010",
+    "aEnd": {
+      "routerId": "172.18.7.12"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.11"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 1
+    },
+    "duration": 19
+  },
+  {
+    "callId": "test-connection-011",
+    "aEnd": {
+      "routerId": "172.18.7.13"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.9"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 4
+    },
+    "duration": 5
+  },
+  {
+    "callId": "test-connection-012",
+    "aEnd": {
+      "routerId": "172.18.7.13"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.5"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 4
+    },
+    "duration": 12
+  },
+  {
+    "callId": "test-connection-013",
+    "aEnd": {
+      "routerId": "172.18.7.5"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.6"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 1
+    },
+    "duration": 13
+  },
+  {
+    "callId": "test-connection-014",
+    "aEnd": {
+      "routerId": "172.18.7.14"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.7"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 2
+    },
+    "duration": 19
+  },
+  {
+    "callId": "test-connection-015",
+    "aEnd": {
+      "routerId": "172.18.7.9"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.8"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 4
+    },
+    "duration": 2
+  },
+  {
+    "callId": "test-connection-016",
+    "aEnd": {
+      "routerId": "172.18.7.14"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.7"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 3
+    },
+    "duration": 7
+  },
+  {
+    "callId": "test-connection-017",
+    "aEnd": {
+      "routerId": "172.18.7.4"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.9"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 1
+    },
+    "duration": 16
+  },
+  {
+    "callId": "test-connection-018",
+    "aEnd": {
+      "routerId": "172.18.7.10"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.13"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 4
+    },
+    "duration": 2
+  },
+  {
+    "callId": "test-connection-019",
+    "aEnd": {
+      "routerId": "172.18.7.5"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.6"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 2
+    },
+    "duration": 1
+  },
+  {
+    "callId": "test-connection-020",
+    "aEnd": {
+      "routerId": "172.18.7.5"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.7"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 1
+    },
+    "duration": 4
+  },
+  {
+    "callId": "test-connection-021",
+    "aEnd": {
+      "routerId": "172.18.7.12"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.14"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 1
+    },
+    "duration": 7
+  },
+  {
+    "callId": "test-connection-022",
+    "aEnd": {
+      "routerId": "172.18.7.5"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.8"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 2
+    },
+    "duration": 13
+  },
+  {
+    "callId": "test-connection-023",
+    "aEnd": {
+      "routerId": "172.18.7.15"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.5"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 4
+    },
+    "duration": 2
+  },
+  {
+    "callId": "test-connection-024",
+    "aEnd": {
+      "routerId": "172.18.7.13"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.4"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 1
+    },
+    "duration": 15
+  },
+  {
+    "callId": "test-connection-025",
+    "aEnd": {
+      "routerId": "172.18.7.14"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.12"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 3
+    },
+    "duration": 2
+  },
+  {
+    "callId": "test-connection-026",
+    "aEnd": {
+      "routerId": "172.18.7.14"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.11"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 3
+    },
+    "duration": 17
+  },
+  {
+    "callId": "test-connection-027",
+    "aEnd": {
+      "routerId": "172.18.7.8"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.14"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 4
+    },
+    "duration": 20
+  },
+  {
+    "callId": "test-connection-028",
+    "aEnd": {
+      "routerId": "172.18.7.5"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.10"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 2
+    },
+    "duration": 13
+  },
+  {
+    "callId": "test-connection-029",
+    "aEnd": {
+      "routerId": "172.18.7.13"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.11"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 3
+    },
+    "duration": 5
+  },
+  {
+    "callId": "test-connection-030",
+    "aEnd": {
+      "routerId": "172.18.7.9"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.14"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 3
+    },
+    "duration": 8
+  },
+  {
+    "callId": "test-connection-031",
+    "aEnd": {
+      "routerId": "172.18.7.6"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.5"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 3
+    },
+    "duration": 5
+  },
+  {
+    "callId": "test-connection-032",
+    "aEnd": {
+      "routerId": "172.18.7.8"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.11"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 2
+    },
+    "duration": 17
+  },
+  {
+    "callId": "test-connection-033",
+    "aEnd": {
+      "routerId": "172.18.7.8"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.11"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 1
+    },
+    "duration": 16
+  },
+  {
+    "callId": "test-connection-034",
+    "aEnd": {
+      "routerId": "172.18.7.14"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.11"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 4
+    },
+    "duration": 1
+  },
+  {
+    "callId": "test-connection-035",
+    "aEnd": {
+      "routerId": "172.18.7.13"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.5"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 2
+    },
+    "duration": 20
+  },
+  {
+    "callId": "test-connection-036",
+    "aEnd": {
+      "routerId": "172.18.7.14"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.13"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 1
+    },
+    "duration": 13
+  },
+  {
+    "callId": "test-connection-037",
+    "aEnd": {
+      "routerId": "172.18.7.15"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.7"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 4
+    },
+    "duration": 8
+  },
+  {
+    "callId": "test-connection-038",
+    "aEnd": {
+      "routerId": "172.18.7.6"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.5"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 3
+    },
+    "duration": 5
+  },
+  {
+    "callId": "test-connection-039",
+    "aEnd": {
+      "routerId": "172.18.7.9"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.7"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 2
+    },
+    "duration": 13
+  },
+  {
+    "callId": "test-connection-040",
+    "aEnd": {
+      "routerId": "172.18.7.13"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.7"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 3
+    },
+    "duration": 7
+  },
+  {
+    "callId": "test-connection-041",
+    "aEnd": {
+      "routerId": "172.18.7.5"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.10"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 3
+    },
+    "duration": 3
+  },
+  {
+    "callId": "test-connection-042",
+    "aEnd": {
+      "routerId": "172.18.7.8"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.14"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 3
+    },
+    "duration": 6
+  },
+  {
+    "callId": "test-connection-043",
+    "aEnd": {
+      "routerId": "172.18.7.12"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.4"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 4
+    },
+    "duration": 9
+  },
+  {
+    "callId": "test-connection-044",
+    "aEnd": {
+      "routerId": "172.18.7.13"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.15"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 3
+    },
+    "duration": 8
+  },
+  {
+    "callId": "test-connection-045",
+    "aEnd": {
+      "routerId": "172.18.7.15"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.7"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 2
+    },
+    "duration": 4
+  },
+  {
+    "callId": "test-connection-046",
+    "aEnd": {
+      "routerId": "172.18.7.14"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.11"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 3
+    },
+    "duration": 6
+  },
+  {
+    "callId": "test-connection-047",
+    "aEnd": {
+      "routerId": "172.18.7.5"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.15"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 1
+    },
+    "duration": 11
+  },
+  {
+    "callId": "test-connection-048",
+    "aEnd": {
+      "routerId": "172.18.7.9"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.13"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 4
+    },
+    "duration": 4
+  },
+  {
+    "callId": "test-connection-049",
+    "aEnd": {
+      "routerId": "172.18.7.13"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.5"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 1
+    },
+    "duration": 19
+  },
+  {
+    "callId": "test-connection-050",
+    "aEnd": {
+      "routerId": "172.18.7.11"
+    },
+    "zEnd": {
+      "routerId": "172.18.7.7"
+    },
+    "trafficParams": {
+      "reservedBandwidth": 4,
+      "sla": 1
+    },
+    "duration": 5
+  }
+]

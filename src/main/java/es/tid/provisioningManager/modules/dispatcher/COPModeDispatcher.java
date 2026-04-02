@@ -94,7 +94,7 @@ public class COPModeDispatcher {
 		}
 		log.info("v routerType="+infoDispatcher.getRouterType()+", callId="+callId+" (Constant)");
 		
-		String tparams = "\"trafficParams\":{\"latency\":100,\"reservedBandwidth\":100000000}";
+		String tparams = "\"trafficParams\":{\"latency\":100,\"reservedBandwidth\":100000000,\"sla\":1}";
 		
 		String tlayer = "\"transportLayer\":{\"layer\":\"ethernet\", \"direction\":\"bidir\"}";
 		

@@ -30,6 +30,7 @@ import es.tid.pce.pcep.objects.tlvs.EndPointDataPathTLV;
 import es.tid.pce.pcep.objects.tlvs.EndPointIPv4TLV;
 import es.tid.pce.pcep.objects.tlvs.EndPointUnnumberedDataPathTLV;
 import es.tid.pce.pcep.objects.tlvs.LSPDurationTLV;
+import es.tid.pce.pcep.objects.tlvs.SLATLV;
 import es.tid.pce.pcep.objects.tlvs.UnnumberedEndpointTLV;
 import es.tid.pce.pcepsession.PCEPSessionsInformation;
 import es.tid.util.UtilsFunctions;
@@ -44,6 +45,20 @@ public class Path_Computation extends Thread
 	ClientRequestManager crm;
 	private int ofCode;
 	private Logger log;
+
+	private void applyServiceTLVs(RequestParameters reqParams, Long durationSlots, Integer slaLevel)
+	{
+		if (durationSlots != null){
+			LSPDurationTLV durationTLV = new LSPDurationTLV();
+			durationTLV.setDuration(durationSlots.longValue());
+			reqParams.setLspDurationTLV(durationTLV);
+		}
+		if (slaLevel != null){
+			SLATLV slaTLV = new SLATLV();
+			slaTLV.setSla(slaLevel.intValue());
+			reqParams.setSlaTLV(slaTLV);
+		}
+	}
 
 	public Path_Computation(PCEParameters pceParams)
 	{
@@ -62,8 +77,13 @@ public class Path_Computation extends Thread
 
 	public PCEPResponse calculateMediaChannelPath(String SourceString, String DestString, int srcIntf, int dstIntf, int m, int OFCode)
 	{
+		return calculateMediaChannelPath(SourceString, DestString, srcIntf, dstIntf, m, OFCode, null);
+	}
+
+	public PCEPResponse calculateMediaChannelPath(String SourceString, String DestString, int srcIntf, int dstIntf, int m, int OFCode, Integer slaLevel)
+	{
 		this.log.info("**  PCE  **");
-		this.log.info("Calculating cost between " + SourceString + " and " + DestString + " src port "+srcIntf+ " dst port "+dstIntf+ " m "+m+ " OFCode "+OFCode);
+		this.log.info("Calculating cost between " + SourceString + " and " + DestString + " src port "+srcIntf+ " dst port "+dstIntf+ " m "+m+ " OFCode "+OFCode+ " sla "+slaLevel);
 		try {
 			// Creating PCEP Request
 			PCEPRequest pReq = new PCEPRequest();
@@ -77,6 +97,7 @@ public class Path_Computation extends Thread
 			reqParams.setPrio(1);
 			//reqParams.setRequestID(1L);
 			reqParams.setRequestID(PCCPCEPSession.getNewReqIDCounter());
+			applyServiceTLVs(reqParams, null, slaLevel);
 
 			req.setRequestParameters(reqParams);
 			
@@ -129,13 +150,18 @@ public class Path_Computation extends Thread
 
 	public PCEPResponse calculatePath(String SourceString, String DestString, int srcIntf, int dstIntf, float bndwdth, int OFCode, String ExcludeString, long excludePort)
 	{
-		return calculatePath(SourceString, DestString, srcIntf, dstIntf, bndwdth, OFCode, ExcludeString, excludePort, null);
+		return calculatePath(SourceString, DestString, srcIntf, dstIntf, bndwdth, OFCode, ExcludeString, excludePort, null, null);
 	}
 
 	public PCEPResponse calculatePath(String SourceString, String DestString, int srcIntf, int dstIntf, float bndwdth, int OFCode, String ExcludeString, long excludePort, Long durationSlots)
 	{
+		return calculatePath(SourceString, DestString, srcIntf, dstIntf, bndwdth, OFCode, ExcludeString, excludePort, durationSlots, null);
+	}
+
+	public PCEPResponse calculatePath(String SourceString, String DestString, int srcIntf, int dstIntf, float bndwdth, int OFCode, String ExcludeString, long excludePort, Long durationSlots, Integer slaLevel)
+	{
 		this.log.info("**  PCE  **");
-		this.log.info("Calculating cost between " + SourceString + " and " + DestString + " src port "+srcIntf+ " dst port "+dstIntf+ " bandwidth "+bndwdth + " OFCode "+OFCode + " durationSlots " + durationSlots);
+		this.log.info("Calculating cost between " + SourceString + " and " + DestString + " src port "+srcIntf+ " dst port "+dstIntf+ " bandwidth "+bndwdth + " OFCode "+OFCode + " durationSlots " + durationSlots + " sla " + slaLevel);
 		try {
 			// Creating PCEP Request
 			PCEPRequest pReq = new PCEPRequest();
@@ -149,11 +175,7 @@ public class Path_Computation extends Thread
 			reqParams.setPrio(1);
 			//reqParams.setRequestID(1L);
 			reqParams.setRequestID(PCCPCEPSession.getNewReqIDCounter());
-			if (durationSlots != null){
-				LSPDurationTLV durationTLV = new LSPDurationTLV();
-				durationTLV.setDuration(durationSlots.longValue());
-				reqParams.setLspDurationTLV(durationTLV);
-			}
+			applyServiceTLVs(reqParams, durationSlots, slaLevel);
 
 			req.setRequestParameters(reqParams);
 			

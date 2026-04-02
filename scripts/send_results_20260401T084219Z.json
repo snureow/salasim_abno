@@ -1,0 +1,102 @@
+[
+  {
+    "callId": "test-connection-001",
+    "ok": true,
+    "statusCode": 200,
+    "error": null,
+    "requestBody": {
+      "callId": "test-connection-001",
+      "aEnd": {
+        "routerId": "172.18.7.5"
+      },
+      "zEnd": {
+        "routerId": "172.18.7.9"
+      },
+      "trafficParams": {
+        "reservedBandwidth": 4
+      },
+      "duration": 3
+    },
+    "responseBody": "{\"code\":4,\"type\":\"ok\",\"message\":\"Created OK\"}"
+  },
+  {
+    "callId": "test-connection-002",
+    "ok": true,
+    "statusCode": 200,
+    "error": null,
+    "requestBody": {
+      "callId": "test-connection-002",
+      "aEnd": {
+        "routerId": "172.18.7.14"
+      },
+      "zEnd": {
+        "routerId": "172.18.7.9"
+      },
+      "trafficParams": {
+        "reservedBandwidth": 4
+      },
+      "duration": 15
+    },
+    "responseBody": "{\"code\":4,\"type\":\"ok\",\"message\":\"Created OK\"}"
+  },
+  {
+    "callId": "test-connection-003",
+    "ok": true,
+    "statusCode": 200,
+    "error": null,
+    "requestBody": {
+      "callId": "test-connection-003",
+      "aEnd": {
+        "routerId": "172.18.7.14"
+      },
+      "zEnd": {
+        "routerId": "172.18.7.4"
+      },
+      "trafficParams": {
+        "reservedBandwidth": 4
+      },
+      "duration": 17
+    },
+    "responseBody": "{\"code\":4,\"type\":\"ok\",\"message\":\"Created OK\"}"
+  },
+  {
+    "callId": "test-connection-004",
+    "ok": true,
+    "statusCode": 200,
+    "error": null,
+    "requestBody": {
+      "callId": "test-connection-004",
+      "aEnd": {
+        "routerId": "172.18.7.5"
+      },
+      "zEnd": {
+        "routerId": "172.18.7.9"
+      },
+      "trafficParams": {
+        "reservedBandwidth": 4
+      },
+      "duration": 20
+    },
+    "responseBody": "{\"code\":4,\"type\":\"ok\",\"message\":\"Created OK\"}"
+  },
+  {
+    "callId": "test-connection-005",
+    "ok": true,
+    "statusCode": 200,
+    "error": null,
+    "requestBody": {
+      "callId": "test-connection-005",
+      "aEnd": {
+        "routerId": "172.18.7.6"
+      },
+      "zEnd": {
+        "routerId": "172.18.7.5"
+      },
+      "trafficParams": {
+        "reservedBandwidth": 4
+      },
+      "duration": 17
+    },
+    "responseBody": "{\"code\":4,\"type\":\"ok\",\"message\":\"Created OK\"}"
+  }
+]

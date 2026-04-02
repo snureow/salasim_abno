@@ -30,6 +30,23 @@ public class ConfigApiServiceImpl extends ConfigApiService {
 	
 
 	private Logger log=LoggerFactory.getLogger("ConfigApiServiceImpl");
+
+	private Integer resolveSla(TrafficParams trafficParams) {
+		if (trafficParams == null || trafficParams.getSla() == null) {
+			return Integer.valueOf(1);
+		}
+		Integer sla = trafficParams.getSla();
+		if (sla.intValue() < 1 || sla.intValue() > 4) {
+			throw new IllegalArgumentException("trafficParams.sla must be between 1 and 4");
+		}
+		return sla;
+	}
+
+	private Response badRequestResponse(String message) {
+		return Response.status(Response.Status.BAD_REQUEST)
+				.entity(new ApiResponseMessage(ApiResponseMessage.ERROR, message))
+				.build();
+	}
   
       @Override
       public Response retrieveCalls()
@@ -89,6 +106,13 @@ public class ConfigApiServiceImpl extends ConfigApiService {
 	
   		   
   		String workflowParam = "L0ProvisioningCOPWF";
+		Integer slaLevel;
+		try {
+			slaLevel = resolveSla(call.getTrafficParams());
+		} catch (IllegalArgumentException exc) {
+			log.warn("Invalid SLA for call {}: {}", callId, exc.getMessage());
+			return badRequestResponse(exc.getMessage());
+		}
   		
   		
   		Hashtable<String, String> request = new Hashtable<String, String>();
@@ -103,6 +127,7 @@ public class ConfigApiServiceImpl extends ConfigApiService {
   		request.put("Source_Node", call.getAEnd().getRouterId());
   		request.put("Destination_Node", call.getZEnd().getRouterId());
   		request.put("Duration", call.getDuration().toString());
+		request.put("SLA", slaLevel.toString());
   		
   		if (call.getAEnd().getInterfaceId()!= null){
   			request.put("source_interface", call.getAEnd().getInterfaceId());

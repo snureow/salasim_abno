@@ -40,6 +40,7 @@ import es.tid.pce.pcep.objects.EndPointsIPv4;
 import es.tid.pce.pcep.objects.ExplicitRouteObject;
 import es.tid.pce.pcep.objects.LSP;
 import es.tid.pce.pcep.objects.SRP;
+import es.tid.pce.pcep.objects.tlvs.SLATLV;
 import es.tid.pce.pcep.objects.tlvs.SymbolicPathNameTLV;
 import es.tid.pce.pcep.objects.tlvs.subtlvs.SymbolicPathNameSubTLV;
 import es.tid.pce.pcepsession.GenericPCEPSession;
@@ -196,7 +197,22 @@ public abstract class WorkflowCOP
 		System.out.println("-----------------------------------------------------------------");
 	}
 
+	protected void applySlaTLV(LSP lsp, Integer slaLevel)
+	{
+		if (lsp == null || slaLevel == null){
+			return;
+		}
+		SLATLV slaTLV = new SLATLV();
+		slaTLV.setSla(slaLevel.intValue());
+		lsp.setSlaTLV(slaTLV);
+	}
+
 	protected PCEPInitiate responseTOinitiate(PCEPResponse pcepresponse, int m)
+	{
+		return responseTOinitiate(pcepresponse, m, null);
+	}
+
+	protected PCEPInitiate responseTOinitiate(PCEPResponse pcepresponse, int m, Integer slaLevel)
 	{
 		PCEPInitiate pcepInit = new PCEPInitiate();
 
@@ -207,7 +223,8 @@ public abstract class WorkflowCOP
 		LSP lsp = new LSP();
 		SymbolicPathNameTLV spn = new SymbolicPathNameTLV();
 		spn.setSymbolicPathNameID("IDEALIST".getBytes());
-		lsp.setSymbolicPathNameTLV_tlv(spn);	
+		lsp.setSymbolicPathNameTLV_tlv(spn);
+		applySlaTLV(lsp, slaLevel);
 
 		ExplicitRouteObject ero;
 		ero = (pcepresponse.getResponse(0).getPath(0).geteRO());
@@ -238,6 +255,11 @@ public abstract class WorkflowCOP
 	
 	protected PCEPInitiate responseTOinitiate(PCEPResponse pcepresponse)
 	{
+		return responseTOinitiate(pcepresponse, null);
+	}
+
+	protected PCEPInitiate responseTOinitiate(PCEPResponse pcepresponse, Integer slaLevel)
+	{
 		PCEPInitiate pcepInit = new PCEPInitiate();
 
 		//For the time being, no need to put anything here
@@ -245,6 +267,7 @@ public abstract class WorkflowCOP
 
 		//For the time being, no need to put anything here
 		LSP lsp = new LSP();
+		applySlaTLV(lsp, slaLevel);
 
 		ExplicitRouteObject ero;
 		ero = (pcepresponse.getResponse(0).getPath(0).geteRO());

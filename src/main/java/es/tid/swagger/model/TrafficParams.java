@@ -17,6 +17,7 @@ public class TrafficParams  {
   };
   private QosClassEnum qosClass = null;
   private Integer reservedBandwidth = null;
+  private Integer sla = null;
 
   
   /**
@@ -79,6 +80,18 @@ public class TrafficParams  {
   }
 
   
+  /**
+   **/
+  @ApiModelProperty(value = "")
+  @JsonProperty("sla")
+  public Integer getSla() {
+    return sla;
+  }
+  public void setSla(Integer sla) {
+    this.sla = sla;
+  }
+
+  
 
   @Override
   public String toString()  {
@@ -90,6 +103,7 @@ public class TrafficParams  {
     sb.append("  estimatedPLR: ").append(estimatedPLR).append("\n");
     sb.append("  qosClass: ").append(qosClass).append("\n");
     sb.append("  reservedBandwidth: ").append(reservedBandwidth).append("\n");
+    sb.append("  sla: ").append(sla).append("\n");
     sb.append("}\n");
     return sb.toString();
   }

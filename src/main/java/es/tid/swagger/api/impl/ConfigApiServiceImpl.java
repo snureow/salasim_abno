@@ -1,5 +1,6 @@
 package es.tid.swagger.api.impl;
 
+import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.multipart.FormDataParam;
 
 import es.tid.abno.modules.ABNOCOPController;
@@ -166,15 +167,32 @@ public class ConfigApiServiceImpl extends ConfigApiService {
 			
 			workflow.handleRequest();
 			response = workflow.getResponse();
+            log.info("Workflow response: {}", response);
+
+            // 4. 【新增】校验业务逻辑是否失败
+            // (需根据你实际 response 的失败格式调整，这里假设包含 "error" 或 "fail" 即为失败)
+            if (response != null && (response.toLowerCase().contains("error") || response.toLowerCase().contains("fail"))) {
+                log.error("Workflow logical execution failed: {}", response);
+                return Response.status(ClientResponse.Status.INTERNAL_SERVER_ERROR)
+                        .entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "Provisioning failed: " + response))
+                        .build();
+            }
 		}
-		catch (Exception e1)
-			{
-				log.info(UtilsFunctions.exceptionToString(e1));			
-//				response.sendError(HttpServletResponse.SC_NOT_FOUND);
-//				return;
-			}
-    	  log.info("response: "+response);
-    	  
+        catch (ClassNotFoundException e) {
+            // 细化异常：找不到特定的工作流类，返回 501 Not Implemented (或 404)
+            log.error("Workflow module not found: {}", workflowParam, e);
+            return Response.status(ClientResponse.Status.NOT_IMPLEMENTED)
+                    .entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "Workflow module not supported."))
+                    .build();
+
+        } catch (Exception e) {
+            // 捕获所有其它运行时异常 (实例化异常、调用目标异常等)，返回 500 Internal Server Error
+            log.error("Exception during workflow execution: {}", UtilsFunctions.exceptionToString(e));
+            return Response.status(ClientResponse.Status.INTERNAL_SERVER_ERROR)
+                    .entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "Internal server error during provisioning execution."))
+                    .build();
+        }
+
       return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "Created OK")).build();
   }
   

@@ -46,6 +46,30 @@ public class L0ProvisioningCOPWF extends WorkflowCOP
 		super(request, response, path_Computationlist, params, oPtable);
 	}
 
+	private boolean hasNoPath(PCEPResponse pcepResponse) {
+		return pcepResponse == null
+				|| pcepResponse.getResponseList() == null
+				|| pcepResponse.getResponseList().isEmpty()
+				|| pcepResponse.getResponseList().get(0).getNoPath() != null;
+	}
+
+	private JSONObject createWorkflowResponse(String idOperation, String result, String errorCode) {
+		JSONObject jsonParams = new JSONObject();
+		try {
+			jsonParams.put("ID_Operation", idOperation);
+			jsonParams.put("Operation_Type","L0_PROVISIONING");
+			jsonParams.put("Source_Node",source);
+			jsonParams.put("Destination_Node",destination);
+			jsonParams.put("Source_interface", source_interface);
+			jsonParams.put("Destination_interface", destination_interface);
+			jsonParams.put("Result", result);
+			jsonParams.put("Error_Code", errorCode);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return jsonParams;
+	}
+
 	@Override
 	public void handleRequest() 
 	{
@@ -65,6 +89,7 @@ public class L0ProvisioningCOPWF extends WorkflowCOP
 		String bw=request.get("Bandwidth");
 		Long durationSlots = null;
 		Integer slaLevel = null;
+		Boolean losslessHandover = null;
 		if (request.get("Duration") != null){
 			durationSlots = Long.parseLong(request.get("Duration"));
 			log.info("Duration slots is: " + durationSlots);
@@ -72,6 +97,10 @@ public class L0ProvisioningCOPWF extends WorkflowCOP
 		if (request.get("SLA") != null){
 			slaLevel = Integer.parseInt(request.get("SLA"));
 			log.info("SLA level is: " + slaLevel);
+		}
+		if (request.get("LosslessHandover") != null){
+			losslessHandover = Boolean.valueOf(request.get("LosslessHandover"));
+			log.info("Explicit protection/lossless handover request is: " + losslessHandover);
 		}
 		
 		
@@ -168,6 +197,12 @@ public class L0ProvisioningCOPWF extends WorkflowCOP
 				pcepResponsel0ML = path_Computationlist.getFirst().calculatePath(source,destination, 0);
 			}
 		}
+
+		if (!delete && hasNoPath(pcepResponsel0ML)) {
+			System.out.println("ERROR. PCE-l0 returns NO PATH.");
+			response = createWorkflowResponse(idOperation, "L0_PATH_NOT_CONFIGURED", "NO_PATH").toString();
+			return;
+		}
 			
 
 		
@@ -197,17 +232,22 @@ public class L0ProvisioningCOPWF extends WorkflowCOP
 					
 		
 					//respIni= callPCE(responseTOinitiate(pcepResponsel0ML,m));
-					PCEPInitiate pcepInit = responseTOinitiate(pcepResponsel0ML,m,slaLevel);
+					PCEPInitiate pcepInit = responseTOinitiate(pcepResponsel0ML,m,slaLevel,losslessHandover);
 					GeneralizedEndPoints endPointsInitiate = new GeneralizedEndPoints();
 					endPointsInitiate = Path_Computation.createGeneralizedEndpoints(source, source_interface, destination, destination_interface);
 					pcepInit.getPcepIntiatedLSPList().get(0).setEndPoint(endPointsInitiate);
 					responseToInitiate=callPCE(pcepInit); //m could value -1 if MediaChannel case
 					log.info("Finish callPCE");
+					if (responseToInitiate == null){
+						log.warn("PCE instantiation did not return a PCEPReport for operation {}", idOperation);
+						response = createWorkflowResponse(idOperation, "L0_PATH_NOT_CONFIGURED", "PCE_INIT_TIMEOUT").toString();
+						return;
+					}
 					
 									
 				}else {
 					log.info("Sending PCEP Initiate to Provisioning Manager");
-					callProvisioningManager(responseTOinitiate(pcepResponsel0ML, slaLevel));
+					callProvisioningManager(responseTOinitiate(pcepResponsel0ML, slaLevel, losslessHandover));
 					log.info("Finish callProvisioningManager");
 				}
 				
@@ -217,20 +257,7 @@ public class L0ProvisioningCOPWF extends WorkflowCOP
 		//this.oPtable.containsKey(Integer.parseInt(idOperation));
 		log.info("jm ver tabla para idoperacion: "+this.oPtable.get(Integer.parseInt(idOperation)));
 		
-		JSONObject jsonParams = new JSONObject();
-		try {
-			jsonParams.put("ID_Operation", idOperation);
-			jsonParams.put("Operation_Type","L0_PROVISIONING");
-			jsonParams.put("Source_Node",source);
-			jsonParams.put("Destination_Node",destination);
-			jsonParams.put("Source_interface", source_interface);
-			jsonParams.put("Destination_interface", destination_interface);
-			jsonParams.put("Result","L0_PATH_CONFIGURED");
-			jsonParams.put("Error_Code","NO_ERROR");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		JSONObject jsonParams = createWorkflowResponse(idOperation, "L0_PATH_CONFIGURED", "NO_ERROR");
 
 		response = jsonParams.toString();
 

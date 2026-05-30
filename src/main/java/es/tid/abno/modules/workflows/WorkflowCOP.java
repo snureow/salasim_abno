@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 import java.net.Inet4Address;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -23,6 +24,7 @@ import es.tid.abno.modules.ABNOParameters;
 import es.tid.abno.modules.Path_Computation;
 import es.tid.abno.modules.database.OpTable;
 import es.tid.of.DataPathID;
+import es.tid.pce.client.PCCPCEPSession;
 import es.tid.pce.pcep.constructs.GeneralizedBandwidthSSON;
 import es.tid.pce.pcep.constructs.PCEPIntiatedLSP;
 import es.tid.pce.pcep.constructs.UpdateRequest;
@@ -207,22 +209,34 @@ public abstract class WorkflowCOP
 		lsp.setSlaTLV(slaTLV);
 	}
 
+	protected SRP createSrp()
+	{
+		SRP rsp = new SRP();
+		rsp.setSRP_ID_number(PCCPCEPSession.getNewReqIDCounter());
+		return rsp;
+	}
+
 	protected PCEPInitiate responseTOinitiate(PCEPResponse pcepresponse, int m)
 	{
-		return responseTOinitiate(pcepresponse, m, null);
+		return responseTOinitiate(pcepresponse, m, null, null);
 	}
 
 	protected PCEPInitiate responseTOinitiate(PCEPResponse pcepresponse, int m, Integer slaLevel)
 	{
+		return responseTOinitiate(pcepresponse, m, slaLevel, null);
+	}
+
+	protected PCEPInitiate responseTOinitiate(PCEPResponse pcepresponse, int m, Integer slaLevel, Boolean protectionPathRequested)
+	{
 		PCEPInitiate pcepInit = new PCEPInitiate();
 
 		//For the time being, no need to put anything here
-		SRP rsp = new SRP();
+		SRP rsp = createSrp();
 
 		//For the time being, no need to put anything here
 		LSP lsp = new LSP();
 		SymbolicPathNameTLV spn = new SymbolicPathNameTLV();
-		spn.setSymbolicPathNameID("IDEALIST".getBytes());
+		spn.setSymbolicPathNameID(buildSymbolicPathName(protectionPathRequested).getBytes(StandardCharsets.US_ASCII));
 		lsp.setSymbolicPathNameTLV_tlv(spn);
 		applySlaTLV(lsp, slaLevel);
 
@@ -260,13 +274,21 @@ public abstract class WorkflowCOP
 
 	protected PCEPInitiate responseTOinitiate(PCEPResponse pcepresponse, Integer slaLevel)
 	{
+		return responseTOinitiate(pcepresponse, slaLevel, null);
+	}
+
+	protected PCEPInitiate responseTOinitiate(PCEPResponse pcepresponse, Integer slaLevel, Boolean protectionPathRequested)
+	{
 		PCEPInitiate pcepInit = new PCEPInitiate();
 
 		//For the time being, no need to put anything here
-		SRP rsp = new SRP();
+		SRP rsp = createSrp();
 
 		//For the time being, no need to put anything here
 		LSP lsp = new LSP();
+		SymbolicPathNameTLV spn = new SymbolicPathNameTLV();
+		spn.setSymbolicPathNameID(buildSymbolicPathName(protectionPathRequested).getBytes(StandardCharsets.US_ASCII));
+		lsp.setSymbolicPathNameTLV_tlv(spn);
 		applySlaTLV(lsp, slaLevel);
 
 		ExplicitRouteObject ero;
@@ -285,13 +307,21 @@ public abstract class WorkflowCOP
 
 		return pcepInit;
 	}
+
+	protected String buildSymbolicPathName(Boolean protectionPathRequested)
+	{
+		if (protectionPathRequested == null) {
+			return "IDEALIST";
+		}
+		return "IDEALIST;losslessHandover=" + protectionPathRequested.toString();
+	}
 	
 	protected PCEPInitiate responseTOupdate(PCEPResponse pcepresponse)
 	{
 		PCEPInitiate pcepInit = new PCEPInitiate();
 
 		//For the time being, no need to put anything here
-		SRP rsp = new SRP();
+		SRP rsp = createSrp();
 
 		//For the time being, no need to put anything here
 		LSP lsp = new LSP();
@@ -396,7 +426,7 @@ public abstract class WorkflowCOP
 
 		PCEPInitiate pceInit = new PCEPInitiate();
 		//For the time being, no need to put anything here
-		SRP rsp = new SRP();
+		SRP rsp = createSrp();
 
 		//For the time being, no need to put anything here
 		LSP lsp = new LSP();
@@ -462,7 +492,7 @@ public abstract class WorkflowCOP
 
 		PCEPInitiate pceInit = new PCEPInitiate();
 		//For the time being, no need to put anything here
-		SRP rsp = new SRP();
+		SRP rsp = createSrp();
 		if (delete){
 			rsp.setRFlag(true);
 		}
@@ -595,7 +625,7 @@ public abstract class WorkflowCOP
 
 		PCEPUpdate pceUdp = new PCEPUpdate();
 		//For the time being, no need to put anything here
-		SRP rsp = new SRP();
+		SRP rsp = createSrp();
 		if (delete){
 			rsp.setRFlag(true);
 		}

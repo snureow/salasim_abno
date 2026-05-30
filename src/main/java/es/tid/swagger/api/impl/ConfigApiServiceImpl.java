@@ -14,6 +14,7 @@ import es.tid.util.UtilsFunctions;
 import java.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -47,6 +48,34 @@ public class ConfigApiServiceImpl extends ConfigApiService {
 		return Response.status(Response.Status.BAD_REQUEST)
 				.entity(new ApiResponseMessage(ApiResponseMessage.ERROR, message))
 				.build();
+	}
+
+	private boolean workflowFailed(String response) {
+		if (response == null || response.trim().isEmpty()) {
+			return true;
+		}
+		try {
+			JSONObject jsonResponse = new JSONObject(response);
+			if (jsonResponse.has("Error_Code")) {
+				if (!"NO_ERROR".equalsIgnoreCase(jsonResponse.getString("Error_Code"))) {
+					return true;
+				}
+			}
+			if (jsonResponse.has("Result")) {
+				return !"L0_PATH_CONFIGURED".equalsIgnoreCase(jsonResponse.getString("Result"));
+			}
+		} catch (Exception exc) {
+			String normalizedResponse = response.toLowerCase(Locale.ROOT);
+			return normalizedResponse.contains("error") || normalizedResponse.contains("fail");
+		}
+		return false;
+	}
+
+	private Boolean resolveProtectionPath(Call call) {
+		if (call == null) {
+			return null;
+		}
+		return call.getProtectionPath();
 	}
   
       @Override
@@ -129,6 +158,11 @@ public class ConfigApiServiceImpl extends ConfigApiService {
   		request.put("Destination_Node", call.getZEnd().getRouterId());
   		request.put("Duration", call.getDuration().toString());
 		request.put("SLA", slaLevel.toString());
+		Boolean protectionPath = resolveProtectionPath(call);
+		if (protectionPath != null) {
+			request.put("LosslessHandover", protectionPath.toString());
+			log.info("callId {} explicit protectionPath/losslessHandover={}", callId, protectionPath);
+		}
   		
   		if (call.getAEnd().getInterfaceId()!= null){
   			request.put("source_interface", call.getAEnd().getInterfaceId());
@@ -169,9 +203,7 @@ public class ConfigApiServiceImpl extends ConfigApiService {
 			response = workflow.getResponse();
             log.info("Workflow response: {}", response);
 
-            // 4. 【新增】校验业务逻辑是否失败
-            // (需根据你实际 response 的失败格式调整，这里假设包含 "error" 或 "fail" 即为失败)
-            if (response != null && (response.toLowerCase().contains("error") || response.toLowerCase().contains("fail"))) {
+            if (workflowFailed(response)) {
                 log.error("Workflow logical execution failed: {}", response);
                 return Response.status(ClientResponse.Status.INTERNAL_SERVER_ERROR)
                         .entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "Provisioning failed: " + response))

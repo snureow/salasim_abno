@@ -25,6 +25,7 @@ public class Call  {
   private List<Connection> connections = new ArrayList<Connection>();
   private TrafficParams trafficParams = null;
   private Integer duration = null;
+  private Boolean protectionPath = null;
   private Endpoint aEnd = null;
   private TransportLayerType transportLayer = null;
   private MatchRules match = null;
@@ -103,6 +104,34 @@ public class Call  {
 
   
   /**
+   * Whether this call should be treated as a protected/lossless handover service.
+   **/
+  @ApiModelProperty(value = "Whether this call should be treated as a protected/lossless handover service.")
+  @JsonProperty("protectionPath")
+  public Boolean getProtectionPath() {
+    return protectionPath;
+  }
+  public void setProtectionPath(Boolean protectionPath) {
+    this.protectionPath = protectionPath;
+  }
+
+  @JsonProperty("losslessHandover")
+  public void setLosslessHandover(Boolean losslessHandover) {
+    this.protectionPath = losslessHandover;
+  }
+
+  @JsonProperty("isProtectionPath")
+  public void setIsProtectionPath(Boolean isProtectionPath) {
+    this.protectionPath = isProtectionPath;
+  }
+
+  @JsonProperty("protection")
+  public void setProtection(Boolean protection) {
+    this.protectionPath = protection;
+  }
+
+  
+  /**
    **/
   @ApiModelProperty(value = "")
   @JsonProperty("aEnd")
@@ -150,6 +179,7 @@ public class Call  {
     sb.append("  connections: ").append(connections).append("\n");
     sb.append("  trafficParams: ").append(trafficParams).append("\n");
     sb.append("  duration: ").append(duration).append("\n");
+    sb.append("  protectionPath: ").append(protectionPath).append("\n");
     sb.append("  aEnd: ").append(aEnd).append("\n");
     sb.append("  transportLayer: ").append(transportLayer).append("\n");
     sb.append("  match: ").append(match).append("\n");

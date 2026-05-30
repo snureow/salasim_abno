@@ -200,16 +200,21 @@ public abstract class Workflow
 		lsp.setSlaTLV(slaTLV);
 	}
 
+	protected SRP createSrp()
+	{
+		SRP rsp = new SRP();
+		rsp.setSRP_ID_number(PCCPCEPSession.getNewReqIDCounter());
+		return rsp;
+	}
+
 	
 	protected PCEPInitiate delete(int id)
 	{
 		PCEPInitiate pcepInit = new PCEPInitiate();
 
 		//For the time being, no need to put anything here
-		SRP rsp = new SRP();
+		SRP rsp = createSrp();
 		rsp.setRFlag(true);
-		
-		rsp.setSRP_ID_number(PCCPCEPSession.getNewReqIDCounter());
 
 		//For the time being, no need to put anything here
 		LSP lsp = new LSP();
@@ -245,7 +250,7 @@ public abstract class Workflow
 		PCEPInitiate pcepInit = new PCEPInitiate();
 
 		//For the time being, no need to put anything here
-		SRP rsp = new SRP();
+		SRP rsp = createSrp();
 
 		//For the time being, no need to put anything here
 		LSP lsp = new LSP();
@@ -291,7 +296,7 @@ public abstract class Workflow
 		PCEPInitiate pcepInit = new PCEPInitiate();
 
 		//For the time being, no need to put anything here
-		SRP rsp = new SRP();
+		SRP rsp = createSrp();
 
 		//For the time being, no need to put anything here
 		LSP lsp = new LSP();
@@ -319,7 +324,7 @@ public abstract class Workflow
 		PCEPInitiate pcepInit = new PCEPInitiate();
 
 		//For the time being, no need to put anything here
-		SRP rsp = new SRP();
+		SRP rsp = createSrp();
 		
 		
 
@@ -395,7 +400,7 @@ public abstract class Workflow
 
 		PCEPInitiate pceInit = new PCEPInitiate();
 		//For the time being, no need to put anything here
-		SRP rsp = new SRP();
+		SRP rsp = createSrp();
 
 		//For the time being, no need to put anything here
 		LSP lsp = new LSP();
@@ -461,7 +466,7 @@ public abstract class Workflow
 
 		PCEPInitiate pceInit = new PCEPInitiate();
 		//For the time being, no need to put anything here
-		SRP rsp = new SRP();
+		SRP rsp = createSrp();
 		if (delete){
 			rsp.setRFlag(true);
 		}
@@ -594,7 +599,7 @@ public abstract class Workflow
 
 		PCEPUpdate pceUdp = new PCEPUpdate();
 		//For the time being, no need to put anything here
-		SRP rsp = new SRP();
+		SRP rsp = createSrp();
 		if (delete){
 			rsp.setRFlag(true);
 		}

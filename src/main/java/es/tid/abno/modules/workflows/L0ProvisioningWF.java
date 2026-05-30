@@ -49,6 +49,30 @@ public class L0ProvisioningWF extends Workflow
 		super(request, response, path_Computationlist, params, oPtable);
 	}
 
+	private boolean hasNoPath(PCEPResponse pcepResponse) {
+		return pcepResponse == null
+				|| pcepResponse.getResponseList() == null
+				|| pcepResponse.getResponseList().isEmpty()
+				|| pcepResponse.getResponseList().get(0).getNoPath() != null;
+	}
+
+	private JSONObject createWorkflowResponse(String idOperation, String result, String errorCode) {
+		JSONObject jsonParams = new JSONObject();
+		try {
+			jsonParams.put("ID_Operation", idOperation);
+			jsonParams.put("Operation_Type","L0_PROVISIONING");
+			jsonParams.put("Source_Node",source);
+			jsonParams.put("Destination_Node",destination);
+			jsonParams.put("Source_interface", source_interface);
+			jsonParams.put("Destination_interface", destination_interface);
+			jsonParams.put("Result", result);
+			jsonParams.put("Error_Code", errorCode);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return jsonParams;
+	}
+
 	@Override
 	public void handleRequest() 
 	{
@@ -158,6 +182,12 @@ public class L0ProvisioningWF extends Workflow
 				pcepResponsel0ML = path_Computationlist.getFirst().calculatePath(source,destination, 0);
 			}
 		}
+
+		if (!delete && hasNoPath(pcepResponsel0ML)) {
+			System.out.println("ERROR. PCE-l0 returns NO PATH.");
+			replyMessage(createWorkflowResponse(idOperation, "L0_PATH_NOT_CONFIGURED", "NO_PATH").toString());
+			return;
+		}
 			
 
 		
@@ -249,6 +279,11 @@ public class L0ProvisioningWF extends Workflow
 					pcepInit.getPcepIntiatedLSPList().get(0).setEndPoint(endPointsInitiate);
 					responseToInitiate=callPCE(pcepInit); //m could value -1 if MediaChannel case
 					log.info("Finish callPCE");
+					if (responseToInitiate == null){
+						log.warn("PCE instantiation did not return a PCEPReport for operation {}", idOperation);
+						replyMessage(createWorkflowResponse(idOperation, "L0_PATH_NOT_CONFIGURED", "PCE_INIT_TIMEOUT").toString());
+						return;
+					}
 					
 									
 				}else {
@@ -263,20 +298,7 @@ public class L0ProvisioningWF extends Workflow
 		//this.oPtable.containsKey(Integer.parseInt(idOperation));
 		log.info("jm ver tabla para idoperacion: "+this.oPtable.get(Integer.parseInt(idOperation)));
 		
-		JSONObject jsonParams = new JSONObject();
-		try {
-			jsonParams.put("ID_Operation", idOperation);
-			jsonParams.put("Operation_Type","L0_PROVISIONING");
-			jsonParams.put("Source_Node",source);
-			jsonParams.put("Destination_Node",destination);
-			jsonParams.put("Source_interface", source_interface);
-			jsonParams.put("Destination_interface", destination_interface);
-			jsonParams.put("Result","L0_PATH_CONFIGURED");
-			jsonParams.put("Error_Code","NO_ERROR");
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		JSONObject jsonParams = createWorkflowResponse(idOperation, "L0_PATH_CONFIGURED", "NO_ERROR");
 
 		replyMessage(jsonParams.toString());
 
